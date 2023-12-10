@@ -1,36 +1,40 @@
 package ru.easycode.zerotoheroandroidtdd
 
-import android.os.Bundle
-import android.view.ViewGroup
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import ru.easycode.zerotoheroandroidtdd.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var isTextViewVisible = true
+    private var state: State = State.Initail
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
         binding.removeButton.setOnClickListener {
-            val parentLayout = binding.titleTextView.parent as ViewGroup
-            parentLayout.removeView(binding.titleTextView)
-            isTextViewVisible = false
+            state = State.Removed
+            removeView()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(KEY, isTextViewVisible)
+        outState.putSerializable(KEY, state)
+    }
+
+    private fun removeView() {
+        state.apply(binding.rootLayout, binding.titleTextView)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        isTextViewVisible = savedInstanceState.getBoolean(KEY)
-        if (!isTextViewVisible) {
-            val parentLayout = binding.titleTextView.parent as ViewGroup
-            parentLayout.removeView(binding.titleTextView)
+        state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            savedInstanceState.getSerializable(KEY, State::class.java) as State
+        } else {
+            savedInstanceState.getSerializable(KEY) as State
         }
+        removeView()
     }
 
     private companion object {
