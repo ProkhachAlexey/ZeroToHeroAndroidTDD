@@ -12,11 +12,11 @@
         android:id="@+id/countTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:text="@string/_0"/>
 
     <Button
         android:id="@+id/incrementButton"
+        android:layout_marginStart="16dp"
         android:text="@string/increment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

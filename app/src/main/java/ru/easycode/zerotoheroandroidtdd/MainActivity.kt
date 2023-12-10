@@ -1,34 +1,33 @@
 package ru.easycode.zerotoheroandroidtdd
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import ru.easycode.zerotoheroandroidtdd.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var count = 0
+    private var count: Count =  Count.Base(2)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
         binding.incrementButton.setOnClickListener {
-            count += 2;
-            binding.countTextView.text = count.toString()
+            val result = count.increment(binding.countTextView.text.toString())
+            binding.countTextView.text = result
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(KEY_COUNT, count)
+        outState.putString(KEY, binding.countTextView.text.toString())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        count = savedInstanceState.getInt(KEY_COUNT)
-        binding.countTextView.text = count.toString()
+        binding.countTextView.text = savedInstanceState.getString(KEY).toString()
     }
 
     private companion object {
-        const val KEY_COUNT = "keyCount"
+        const val KEY = "key"
     }
 }
