@@ -1,47 +1,43 @@
 package ru.easycode.zerotoheroandroidtdd
 
-import android.os.Bundle
-import android.view.ViewGroup
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import ru.easycode.zerotoheroandroidtdd.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var isTextViewVisible = true
-    private var isEnabledButton = true
+    private var state: State = State.Initial
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
+
         binding.removeButton.setOnClickListener {
-            changeState()
-            isTextViewVisible = false
-            isEnabledButton = false
+            state = State.Removed
+            removeView()
         }
     }
 
-    private fun changeState() {
-        val parentLayout = binding.titleTextView.parent as ViewGroup
-        parentLayout.removeView(binding.titleTextView)
-        binding.removeButton.isEnabled = false
+    private fun removeView() {
+        state.apply(binding.rootLayout, binding.titleTextView, binding.removeButton)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(VISIBLE_KEY, isTextViewVisible)
-        outState.putBoolean(ENABLED_BUTTON, isEnabledButton)
+        outState.putSerializable(KEY, state)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        isTextViewVisible = savedInstanceState.getBoolean(VISIBLE_KEY)
-        isEnabledButton = savedInstanceState.getBoolean(ENABLED_BUTTON)
-        if (!isTextViewVisible && !isEnabledButton) {
-            changeState()
+        state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            savedInstanceState.getSerializable(KEY, State::class.java) as State
+        } else {
+            savedInstanceState.getSerializable(KEY) as State
         }
+        removeView()
     }
 
     private companion object {
-        const val VISIBLE_KEY = "visibleKey"
-        const val ENABLED_BUTTON = "enabledButton"
+        const val KEY = "key"
     }
 }
