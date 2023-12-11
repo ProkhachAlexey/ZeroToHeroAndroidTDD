@@ -9,7 +9,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var uiState: UiState
-    private val count = Count.Base(2, 4, 0)
+    private val count = Count.Base(1, 5, 0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

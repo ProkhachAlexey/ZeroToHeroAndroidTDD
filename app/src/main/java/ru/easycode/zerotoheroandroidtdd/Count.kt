@@ -27,8 +27,7 @@ interface Count {
         }
 
         override fun increment(number: String): UiState {
-            val result = (number.toInt() + step).toString()
-            return initial(result)
+            return initial((number.toInt() + step).toString())
         }
 
         override fun decrement(number: String): UiState {
