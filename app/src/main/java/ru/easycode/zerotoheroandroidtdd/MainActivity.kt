@@ -9,12 +9,17 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var uiState: UiState
-    private val count = Count.Base(2,4,0)
+    private val count = Count.Base(2, 4, 0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (savedInstanceState == null) {
+            uiState = count.initial(binding.countTextView.text.toString())
+            updateUi()
+        }
 
         binding.incrementButton.setOnClickListener {
             uiState = count.increment(binding.countTextView.text.toString())
@@ -26,10 +31,6 @@ class MainActivity : AppCompatActivity() {
             updateUi()
         }
 
-        if (savedInstanceState == null) {
-            uiState = count.initial(binding.countTextView.text.toString())
-            updateUi()
-        }
     }
 
     private fun updateUi() {
