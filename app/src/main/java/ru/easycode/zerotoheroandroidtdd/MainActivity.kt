@@ -12,13 +12,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
         binding.actionButton.setOnClickListener {
-            binding.actionButton.isEnabled = false
-            binding.progressBar.visibility = View.VISIBLE
-            binding.actionButton.postDelayed({
-                binding.titleTextView.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
-                binding.actionButton.isEnabled = true
-            }, 3000)
+            with(binding) {
+                actionButton.isEnabled = false
+                progressBar.visibility = View.VISIBLE
+                actionButton.postDelayed({
+                    with(binding) {
+                        titleTextView.visibility = View.VISIBLE
+                        progressBar.visibility = View.GONE
+                        actionButton.isEnabled = true
+                    }
+                }, 3000)
+            }
         }
     }
 }
