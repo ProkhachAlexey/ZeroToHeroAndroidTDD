@@ -55,8 +55,8 @@ private interface FakeLiveDataWrapper : LiveDataWrapper {
             assertEquals(expected, actualCallsList)
         }
 
-        override fun update(value: UiState) {
-            actualCallsList.add(value)
+        override fun update(state: UiState) {
+            actualCallsList.add(state)
         }
 
         override fun liveData(): LiveData<UiState> {
