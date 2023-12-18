@@ -34,7 +34,7 @@ class MainViewModelTest {
     private lateinit var liveDataWrapper: FakeLiveDataWrapper
     private lateinit var viewModel: MainViewModel
 
-    fun initialize() {
+    private fun initialize() {
         repository = FakeRepository.Base()
         liveDataWrapper = FakeLiveDataWrapper.Base()
         viewModel = MainViewModel(
@@ -93,8 +93,8 @@ private interface FakeLiveDataWrapper : LiveDataWrapper {
             bundleWrapper.save(actualCallsList.last())
         }
 
-        override fun update(value: UiState) {
-            actualCallsList.add(value)
+        override fun update(state: UiState) {
+            actualCallsList.add(state)
         }
 
         override fun liveData(): LiveData<UiState> {
