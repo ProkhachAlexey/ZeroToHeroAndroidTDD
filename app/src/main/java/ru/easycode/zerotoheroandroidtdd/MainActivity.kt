@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addTextView(inputText: CharSequence) {
+    private fun addTextView(inputText: String) {
         val listBinding = ListItemBinding.inflate(layoutInflater)
         val textView = listBinding.root
         textView.text = inputText
