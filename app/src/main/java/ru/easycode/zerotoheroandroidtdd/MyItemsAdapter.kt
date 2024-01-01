@@ -9,19 +9,19 @@ import ru.easycode.zerotoheroandroidtdd.databinding.ItemLayoutBinding
 
 class MyItemsAdapter : RecyclerView.Adapter<MyItemsViewHolder>() {
 
-    private val itemsList = ArrayList<CharSequence>()
+    private val itemsList = ArrayList<String>()
 
-    fun add(source: CharSequence) {
+    fun add(source: String) {
         itemsList.add(source)
         notifyItemInserted(itemsList.size - 1)
     }
 
     fun save(bundle: Bundle) {
-        bundle.putCharSequenceArrayList(KEY, itemsList)
+        bundle.putStringArrayList(KEY, itemsList)
     }
 
     fun restore(bundle: Bundle) {
-        itemsList.addAll(bundle.getCharSequenceArrayList(KEY) ?: ArrayList())
+        itemsList.addAll(bundle.getStringArrayList(KEY) ?: ArrayList())
         notifyItemRangeInserted(0, itemsList.size)
     }
 
@@ -41,7 +41,7 @@ class MyItemsAdapter : RecyclerView.Adapter<MyItemsViewHolder>() {
 }
 
 class MyItemsViewHolder(private val binding: ItemLayoutBinding) : ViewHolder(binding.root) {
-    fun bind(source: CharSequence) {
+    fun bind(source: String) {
         binding.elementTextView.text = source
     }
 }

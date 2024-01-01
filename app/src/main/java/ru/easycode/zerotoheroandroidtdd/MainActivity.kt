@@ -7,29 +7,29 @@ import ru.easycode.zerotoheroandroidtdd.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val myItemsAdapter = MyItemsAdapter()
+    private val myAdapter = MyItemsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerView.adapter = myItemsAdapter
+        binding.recyclerView.adapter = myAdapter
 
         binding.actionButton.setOnClickListener {
             val text = binding.inputEditText.text.toString()
-            myItemsAdapter.add(text)
+            myAdapter.add(text)
             binding.inputEditText.text?.clear()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        myItemsAdapter.save(outState)
+        myAdapter.save(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        myItemsAdapter.restore(savedInstanceState)
+        myAdapter.restore(savedInstanceState)
     }
 }
